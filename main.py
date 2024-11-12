@@ -32,6 +32,20 @@ def quick_pick():
     bonus_num = qp_numbers[6]
     print("Your Quick Pick Card: ", qp_numbers)
     print("Bonus Number: ", bonus_num)
+    return qp_numbers # Quick pick numbers list
+
+def valid_lotto_number(chosen_num):
+    if (chosen_num <= 47) and (chosen_num >= 1):
+        return True
+    else:
+        return False
 
 def manual_entry():
-    pass
+    nums_chosen = []
+    for n in range(6):
+        chosen_num = int(input(f"Enter a number between 1-47: "))
+        if ((chosen_num not in nums_chosen) and (valid_lotto_number(chosen_num))):
+            nums_chosen.append(chosen_num)
+    bonus_num = int(input("Choose a bonus number (7th entry): "))
+    nums_chosen.append(bonus_num)
+    return nums_chosen # list of numbers manually entered + bonus
