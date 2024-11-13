@@ -6,6 +6,7 @@
 import urllib.request
 import random
 import re
+from time import sleep
 
 user_number_list = []
 winning_numbers_list = []
@@ -29,34 +30,42 @@ def menu():
         case 1:
             print("==================================")
             print("======= Quick Pick Mode ==========")
-            print("==================================")
+            print("==================================\n")
 
             user_number_list = quick_pick()
 
             print("Your quick pick:")
-            print(user_number_list, "BONUS: ",bonus_numbers[0], end=" ")
+            print(user_number_list, "BONUS: ",bonus_numbers[0],"\n", end=" ")
 
-            # No internet so no API access
+            sleep(1)
+
+            # To remove: No internet so no API access
             winning_numbers_list = [1,2,3,4,5,6]
             bonus_numbers[1] = generate_bonus_number()
 
-            print("============================")
+            print("\n=============================")
             print("====== Prizes won ==========")
-            print("============================")
+            print("============================\n")
             get_prizes(user_number_list,winning_numbers_list)
+            print("\n")
             
         case 2:
             print("==================================")
             print("========== Manual entry ===========")
-            print("==================================")
+            print("==================================\n")
 
             user_number_list = manual_entry()
+
+            print("Your numbers picked:")
+            print(user_number_list, "BONUS: ",bonus_numbers[0],"\n", end=" ")
+
+            sleep(1)
 
             winning_numbers_list = get_draw_result()
 
             print("============================")
             print("====== Prizes won ==========")
-            print("============================")
+            print("============================\n")
 
             get_prizes(user_number_list,winning_numbers_list)
 
@@ -79,11 +88,11 @@ def get_prizes(users_list,winning_numbers):
         is_bonus_matched = False
 
     if num_of_matches == 0:
-        print("Sorry, you didn't win anything. Do try again though!")
+        print("\nSorry, you didn't win anything. Do try again though!")
     else:
         print("--------------------------------")
         print(f"You've matched {num_of_matches} numbers !!!")
-        print("--------------------------------")
+        print("--------------------------------\n")
 
         if (num_of_matches == 6):
             print("you've won the jackpot")
@@ -113,11 +122,11 @@ def get_draw_result():
 
     winning_nums = []
 
-    for i in lottoResults:
-        if (i == 6):
+    for num in lottoResults:
+        if (len(winning_nums) == 6):
             bonus_numbers[1] = lottoResults[6]
         else:
-            winning_nums.append(int(i))
+            winning_nums.append(int(num))
 
     print("W: ", winning_nums, end=", ")
     print("Bonus No.: ", bonus_numbers[1])
