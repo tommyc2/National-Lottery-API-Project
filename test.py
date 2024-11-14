@@ -1,6 +1,5 @@
-list_of_items = []
+def hello(**args):
+    for val in args.values():
+        print(val)
 
-list_of_items.insert(1,"banana")
-list_of_items.insert(5,"tomato")
-
-print(list_of_items)
+hello(val1="hello", val2="Tommy")

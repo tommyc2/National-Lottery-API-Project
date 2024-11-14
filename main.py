@@ -1,7 +1,9 @@
+# =======================================================
 # Tommy Condon
-# 20101841
-# Lotto Assignment
-# Embedded Systems Scripting Year 3
+# Student Number: 20101841
+# Lotto API Assignment
+# Module: Embedded Systems Scripting Year 3
+# =======================================================
 
 import urllib.request
 import random
@@ -12,6 +14,8 @@ user_number_list = []
 winning_numbers_list = []
 bonus_numbers = [0,0]
 
+# Menu function
+# Main function for displaying menu and options
 def menu():
     global user_number_list
     global winning_numbers_list
@@ -35,17 +39,19 @@ def menu():
             user_number_list = quick_pick()
 
             print("Your quick pick:")
-            print(user_number_list, "BONUS: ",bonus_numbers[0],"\n", end=" ")
+            print(user_number_list, "YOUR BONUS NUMBER: ",bonus_numbers[0],"\n", end=" ")
 
             sleep(1)
 
-            # To remove: No internet so no API access
-            winning_numbers_list = [1,2,3,4,5,6]
-            bonus_numbers[1] = generate_bonus_number()
+            try:
+                winning_numbers_list = get_draw_result()
+            except Exception as error:
+                print("API request error",error)
 
             print("\n=============================")
             print("====== Prizes won ==========")
             print("============================\n")
+
             get_prizes(user_number_list,winning_numbers_list)
             print("\n")
             
@@ -57,11 +63,14 @@ def menu():
             user_number_list = manual_entry()
 
             print("Your numbers picked:")
-            print(user_number_list, "BONUS: ",bonus_numbers[0],"\n", end=" ")
+            print(user_number_list, "YOUR BONUS NUMBER: ",bonus_numbers[0],"\n", end=" ")
 
             sleep(1)
 
-            winning_numbers_list = get_draw_result()
+            try:
+                winning_numbers_list = get_draw_result()
+            except Exception as error:
+                print("API request error",error)
 
             print("============================")
             print("====== Prizes won ==========")
@@ -69,16 +78,12 @@ def menu():
 
             get_prizes(user_number_list,winning_numbers_list)
 
+
 def get_prizes(users_list,winning_numbers):
     global bonus_numbers
 
     matched_numbers = set(users_list) & set(winning_numbers)
     num_of_matches = len(list(matched_numbers)) # converting intersection of sets & returning size (i.e. matched numbers) to a list again
-
-    print("Debugging: ")
-    print(f"{users_list} --> B: {bonus_numbers[0]}")
-    print(f"{winning_numbers_list} --> B: {bonus_numbers[1]}")
-    
     
     is_bonus_matched = False
 
@@ -160,7 +165,7 @@ def manual_entry():
     
     nums_chosen = []
     for n in range(6):
-        chosen_num = int(input(f"Enter a number between 1-47: "))
+        chosen_num = int(input("Enter a number between 1-47: "))
         if ((chosen_num not in nums_chosen) and (is_valid_lotto_number(chosen_num))):
             nums_chosen.append(chosen_num)
     bonus_numbers[0] = int(input("Enter a bonus number (1-47): "))
