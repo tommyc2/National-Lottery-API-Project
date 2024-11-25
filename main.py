@@ -118,6 +118,7 @@ def get_prizes(users_list,winning_numbers):
 
     if (bonus_numbers[0] == bonus_numbers[1]):
         is_bonus_matched = True # setting bonus match to true if bonus number is matched
+        num_of_matches = num_of_matches + 1
     else:
         is_bonus_matched = False # otherwise, false
 
@@ -164,7 +165,7 @@ def get_draw_result():
 
     for num in lottoResults:
         if (len(winning_nums) == 6):
-            bonus_numbers[1] = lottoResults[6]
+            bonus_numbers[1] = int(lottoResults[6])
         else:
             winning_nums.append(int(num))
 
