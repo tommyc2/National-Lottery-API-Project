@@ -6,6 +6,9 @@
 # Course: Applied Computing Year 3
 # =======================================================
 
+# Note: Random number generation section (60% part) has been commented out and the prizes function has been refactored
+# Assignment includes API functionality
+
 import urllib.request
 import random
 import re
@@ -14,8 +17,8 @@ from time import sleep
 user_number_list = [] # users quick pick/manual entries
 winning_numbers_list = [] # stores winning lotto numbers
 bonus_numbers = [0,0] # stores bonus (winning and user one) numbers 
-lotto_plus_1 = []
-lotto_plus_2 = []
+#lotto_plus_1 = []
+#lotto_plus_2 = []
 
 # Menu function
 # Main function for displaying menu and options
@@ -23,8 +26,8 @@ def menu():
     global user_number_list
     global winning_numbers_list
     global bonus_numbers
-    global lotto_plus_2
-    global lotto_plus_1
+    #global lotto_plus_2
+    #global lotto_plus_1
 
     print("===================")
     print("==== Main Menu ====")
@@ -35,7 +38,7 @@ def menu():
 
     choice = int(input("--->    "))
 
-    lotto_plus = input("Do you want to be entered into lotto plus? (Y / N): ")
+    #lotto_plus = input("Do you want to be entered into lotto plus? (Y / N): ")
 
     match choice:
         case 1:
@@ -49,28 +52,30 @@ def menu():
 
             sleep(1)
 
-            #winning_numbers_list = get_draw_result()
-            winning_numbers_list = random.sample(range(1,47),7)
+            winning_numbers_list = get_draw_result()
+            #winning_numbers_list = random.sample(range(1,47),7)
                 
-            if lotto_plus == 'Y' or lotto_plus == 'y':
-                lotto_plus_1 = random.sample(range(1,47),7)
-                lotto_plus_2 = random.sample(range(1,47),7)
+            #if lotto_plus == 'Y' or lotto_plus == 'y':
+            #    lotto_plus_1 = random.sample(range(1,47),7)
+            #    lotto_plus_2 = random.sample(range(1,47),7)
                 
             #bonus_numbers[1] = 7
-            print("Lotto Winning Numbers: ", winning_numbers_list[:-1], "--> Bonus Num: ", winning_numbers_list[6])
-            if lotto_plus == "Y" or lotto_plus == "y":
-                print("Lotto Plus 1 Winning Numbers", lotto_plus_1[:-1], "--> Bonus Num: ", lotto_plus_1[6])
-                print("Lotto Plus 2 Winning Numbers", lotto_plus_2[:-1], "--> Bonus Num: ", lotto_plus_2[6],"\n")
 
-            #print("\n=============================")
-            #print("====== Prizes won ==========")
-            #print("============================\n")
+            print("Latest Lotto Winning Numbers: ", winning_numbers_list, "--> Bonus Num: ", bonus_numbers[1])
+            
+            #if lotto_plus == "Y" or lotto_plus == "y":
+            #    print("Lotto Plus 1 Winning Numbers", lotto_plus_1[:-1], "--> Bonus Num: ", lotto_plus_1[6])
+            #    print("Lotto Plus 2 Winning Numbers", lotto_plus_2[:-1], "--> Bonus Num: ", lotto_plus_2[6],"\n")
 
-            #get_prizes(user_number_list,winning_numbers_list)
+            print("\n=============================")
+            print("====== Prizes won ==========")
+            print("============================\n")
+
+            get_prizes(user_number_list,winning_numbers_list)
             print("\n")
             
         case 2:
-            print("==================================")
+            print("\n==================================")
             print("========== Manual entry ===========")
             print("==================================\n")
 
@@ -80,24 +85,27 @@ def menu():
 
             sleep(1)
 
-            #winning_numbers_list = get_draw_result()
-            winning_numbers_list = random.sample(range(1,47),7)
+            winning_numbers_list = get_draw_result()
+            #winning_numbers_list = random.sample(range(1,47),7)
                 
-            if lotto_plus == 'Y' or lotto_plus == 'y':
-                lotto_plus_1 = random.sample(range(1,47),7)
-                lotto_plus_2 = random.sample(range(1,47),7)
+            #if lotto_plus == 'Y' or lotto_plus == 'y':
+            #    lotto_plus_1 = random.sample(range(1,47),7)
+            #    lotto_plus_2 = random.sample(range(1,47),7)
                 
             #bonus_numbers[1] = 7
-            print("Lotto Winning Numbers: ", winning_numbers_list[:-1], "--> Bonus Num: ", winning_numbers_list[6])
-            if lotto_plus == "Y" or lotto_plus == "y":
-                print("Lotto Plus 1 Winning Numbers", lotto_plus_1[:-1], "--> Bonus Num: ", lotto_plus_1[6])
-                print("Lotto Plus 2 Winning Numbers", lotto_plus_2[:-1], "--> Bonus Num: ", lotto_plus_2[6],"\n")
 
-            #print("============================")
-            #print("====== Prizes won ==========")
-            #print("============================\n")
+            print("Latest Lotto Winning Numbers: ", winning_numbers_list, "--> Bonus Num: ", bonus_numbers[1])
+            
+            #if lotto_plus == "Y" or lotto_plus == "y":
+            #    print("Lotto Plus 1 Winning Numbers", lotto_plus_1[:-1], "--> Bonus Num: ", lotto_plus_1[6])
+            #    print("Lotto Plus 2 Winning Numbers", lotto_plus_2[:-1], "--> Bonus Num: ", lotto_plus_2[6],"\n")
 
-            #get_prizes(user_number_list,winning_numbers_list)
+            print("\n=============================")
+            print("====== Prizes won ==========")
+            print("============================\n")
+
+            get_prizes(user_number_list,winning_numbers_list)
+            print("\n")
 
 # Print out prizes given the users numbers (e.g. quick pick or manual) and the last draw
 def get_prizes(users_list,winning_numbers):
@@ -138,7 +146,7 @@ def get_prizes(users_list,winning_numbers):
 def get_draw_result():
     global bonus_numbers
 
-    n = 1
+    n = 1 # pulls last draw
     user_agent='Mozilla 5.0 (Windows; U; Windows NT 5.1; en-Us; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
     urlLotto = f"https://resultsservice.lottery.ie/rest/GetResults?drawType=Lotto&lastNumberOfDraws={n}"
     headers={'User-Agent':user_agent,}
@@ -146,21 +154,13 @@ def get_draw_result():
     response = urllib.request.urlopen(request)
     data = response.read().decode('utf-8')
 
-    print("\nLotto Draw Results\n")
+    print("\n------- Lotto Draw Results -------\n")
     lottoDrawDate = re.findall("<DrawDate>(.*)</DrawDate>", data, re.DOTALL)
     print("Date %s\n" %(lottoDrawDate[0]))
 
     lottoResults = re.findall("<Number>(.*?)</Number>", data, re.DOTALL)
 
     winning_nums = []
-
-    # Random Number Part
-    #for i in range (6):
-    #    if (len(winning_nums) == 6):
-    #        bonus_numbers[1] = random.randint(1,47)
-    #    else:
-    #        num = random.randint(1,47)
-     #       winning_nums.append(num)
 
     for num in lottoResults:
         if (len(winning_nums) == 6):
